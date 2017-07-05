@@ -747,7 +747,8 @@ struct SimpleSGDTrainer : public Trainer {
 };
 
 struct CyclicalSGDTrainer : public Trainer {
-  explicit CyclicalSGDTrainer(Model& m, real e0_min = 0.01, real e0_max = 0.1, real step_size = 2000, real gamma = 0.0, real edecay = 0.0);
+  explicit CyclicalSGDTrainer(ParameterCollection& m, real e0_min = 0.01, real e0_max = 0.1, real step_size = 2000, real gamma = 0.0, real edecay = 0.0);
+  void update(real scale = 1.0);
 };
 
 struct MomentumSGDTrainer : public Trainer {
@@ -854,7 +855,9 @@ struct LSTMBuilder : public RNNBuilder {
   void save_parameters_pretraining(const std::string& fname) const override;
   void load_parameters_pretraining(const std::string& fname) override;
 
+  void set_dropout(float d);
   void set_dropout(float d, float d_h, float d_c);
+  void disable_dropout();
 
   // first index is layer, then ...
   std::vector<std::vector<Parameter>> params;
@@ -898,7 +901,9 @@ struct VanillaLSTMBuilder : public RNNBuilder {
   void save_parameters_pretraining(const std::string& fname) const override;
   void load_parameters_pretraining(const std::string& fname) override;
 
+  void set_dropout(float d);
   void set_dropout(float d, float d_r);
+  void disable_dropout();
 
   // first index is layer, then ...
   std::vector<std::vector<Parameter>> params;
