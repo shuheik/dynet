@@ -579,7 +579,7 @@ Expression sum_batches(const Expression& x);
 Expression pick(const Expression& x, unsigned v, unsigned d = 0);
 Expression pick(const Expression& x, const std::vector<unsigned>& v, unsigned d = 0);
 Expression pick(const Expression& x, const unsigned* v, unsigned d = 0);
-Expression pickrange(const Expression& x, unsigned v, unsigned u);
+Expression pick_range(const Expression& x, unsigned v, unsigned u);
 
 // Concatenate and ConcatenateCols got changed around, need to implement
 // explicitly now.
@@ -747,7 +747,7 @@ struct SimpleSGDTrainer : public Trainer {
 };
 
 struct CyclicalSGDTrainer : public Trainer {
-  explicit CyclicalSGDTrainer(ParameterCollection& m, real e0_min = 0.01, real e0_max = 0.1, real step_size = 2000, real gamma = 0.0, real edecay = 0.0);
+  explicit CyclicalSGDTrainer(Model& m, real e0_min = 0.01, real e0_max = 0.1, real step_size = 2000, real gamma = 0.0, real edecay = 0.0);
   void update(real scale = 1.0);
 };
 

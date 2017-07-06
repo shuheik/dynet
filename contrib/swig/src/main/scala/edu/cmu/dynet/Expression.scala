@@ -221,7 +221,7 @@ object Expression {
   def pick(x: Expression, v: UnsignedPointer, d: Long): Expression =
     unary(x, x => dn.pick(x, v.uintp, d))
   def pickrange(x: Expression, v: Long, u: Long): Expression =
-    unary(x, x => dn.pickrange(x, v, u))
+    unary(x, x => dn.pick_range(x, v, u))
 
   def concatenateCols(v: ExpressionVector): Expression = vectory(v, dn.concatenate_cols)
   def concatenateCols(exprs: Expression*): Expression = concatenateCols(new ExpressionVector(exprs))

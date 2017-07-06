@@ -41,6 +41,8 @@ class LookupParameter private[dynet] (private[dynet] val lookupParameter: intern
 
   def setUpdated(b: Boolean): Unit = lookupParameter.set_updated(b)
   def isUpdated(): Boolean = lookupParameter.is_updated()
+
+  lookupParameter.getIndex
 }
 
 /** Specifies how to initialize a parameter. Construct a particular initialization using the
