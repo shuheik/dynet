@@ -10,7 +10,7 @@ val DEFAULT_BUILD_PATH = "../../build/contrib/swig"
 // The default scala version to use if none was specified from
 // outside.  When building with cmake, the scalaversion property
 // should always be set; this is only a fallback for other cases.
-val DEFAULT_SCALA_VERSION = "2.11.11"
+val DEFAULT_SCALA_VERSION = "2.12.8"
 
 scalaVersion := { sys.props.get("scalaversion") match {
     case Some(p) => p
@@ -20,7 +20,7 @@ scalaVersion := { sys.props.get("scalaversion") match {
     }
 }}
 
-
+javaOptions in Test ++= Seq("-Xms1G","-XX:+CMSClassUnloadingEnabled","-XX:+UseConcMarkSweepGC")
 
 // This is where `make` does all its work, and it's where we'll do all our work as well.
 
@@ -93,6 +93,6 @@ assemblyMergeStrategy in assembly := {
 // Don't include Scala libraries in the jar
 // see https://github.com/sbt/sbt-assembly/issues/3
 // and http://stackoverflow.com/questions/15856739/assembling-a-jar-containing-only-the-provided-dependencies
-assembleArtifact in packageScala := false
+assembleArtifact in assemblyPackageScala := false
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
