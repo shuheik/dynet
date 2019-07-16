@@ -59,13 +59,26 @@ object Expression {
     new Expression(expr, references)
   }
 
-  def input(s: Float): Expression = makeExpr(cg => dn.input(ComputationGraph.cg, s))
+  def input(s: Float): Expression = makeExpr(cg => dn.input(ComputationGraph.cg, s, Device.default()))
+  def input(s: Float, str: String): Expression = makeExpr(cg => dn.input(ComputationGraph.cg, s, Device(str)))
   def input(fp: FloatPointer): Expression =
-    makeExpr(cg => dn.input(ComputationGraph.cg, fp.floatp), Seq(fp))
+    makeExpr(cg => dn.input(ComputationGraph.cg, fp.floatp, Device.default()), Seq(fp))
+  def input(fp: FloatPointer, str: String): Expression =
+    makeExpr(cg => dn.input(ComputationGraph.cg, fp.floatp, Device(str)), Seq(fp))
   def input(d: Dim, pdata: FloatVector): Expression =
-    makeExpr(cg => dn.input(cg, d.dim, pdata.vector), Seq(d, pdata))
-  def input(d: Dim, ids: UnsignedVector, data: FloatVector, defdata: Float = 0f) =
-    makeExpr(cg => dn.input(cg, d.dim, ids.vector, data.vector, defdata), Seq(d, ids, data))
+    makeExpr(cg => dn.input(cg, d.dim, pdata.vector, Device.default()), Seq(d, pdata))
+  def input(d: Dim, pdata: FloatVector, str: String): Expression =
+    makeExpr(cg => dn.input(cg, d.dim, pdata.vector, Device(str)), Seq(d, pdata))
+  def input(d: Dim, ids: UnsignedVector, data: FloatVector, defdata: Float = 0f, str: String = ""): Expression =
+    makeExpr(cg => dn.input(cg, d.dim, ids.vector, data.vector, defdata, Device(str)), Seq(d, ids, data))
+  def oneHot(d:Long, idx:Long): Expression =
+    makeExpr(cg => dn.one_hot(cg, d, idx, Device.default()))
+  def oneHot(d:Long, idx:Long, str: String): Expression =
+    makeExpr(cg => dn.one_hot(cg, d, idx, Device(str)))
+  def oneHot(d:Long, ids:UnsignedVector): Expression =
+    makeExpr(cg => dn.one_hot(cg, d, ids.vector, Device.default()))
+  def oneHot(d:Long, ids:UnsignedVector, str: String): Expression =
+    makeExpr(cg => dn.one_hot(cg, d, ids.vector, Device(str)))
 
   def parameter(p: Parameter): Expression = makeExpr(cg => dn.parameter(cg, p.parameter), Seq(p))
   def parameter(lp: LookupParameter): Expression = makeExpr(cg => dn.parameter(cg, lp.lookupParameter), Seq(lp))
@@ -74,30 +87,30 @@ object Expression {
   def constParameter(lp: LookupParameter): Expression =
     makeExpr(cg => dn.const_parameter(cg, lp.lookupParameter), Seq(lp))
 
-  def lookup(p: LookupParameter, index: Long) =
+  def lookup(p: LookupParameter, index: Long): Expression =
     makeExpr(cg => dn.lookup(cg, p.lookupParameter, index), Seq(p))
-  def lookup(p: LookupParameter, pindex: UnsignedPointer) =
+  def lookup(p: LookupParameter, pindex: UnsignedPointer): Expression =
     makeExpr(cg => dn.lookup(cg, p.lookupParameter, pindex.uintp), Seq(p, pindex))
-  def constLookup(p: LookupParameter, index: Long) =
+  def constLookup(p: LookupParameter, index: Long): Expression =
     makeExpr(cg => dn.const_lookup(cg, p.lookupParameter, index), Seq(p))
-  def constLookup(p: LookupParameter, pindex: UnsignedPointer) =
+  def constLookup(p: LookupParameter, pindex: UnsignedPointer): Expression =
     makeExpr(cg => dn.const_lookup(cg, p.lookupParameter, pindex.uintp), Seq(p, pindex))
-  def lookup(p: LookupParameter, indices: UnsignedVector) =
+  def lookup(p: LookupParameter, indices: UnsignedVector): Expression =
     makeExpr(cg => dn.lookup(cg, p.lookupParameter, indices.vector), Seq(p, indices))
-  def constLookup(p: LookupParameter, indices: UnsignedVector) =
+  def constLookup(p: LookupParameter, indices: UnsignedVector): Expression =
     makeExpr(cg => dn.const_lookup(cg, p.lookupParameter, indices.vector), Seq(p, indices))
 
-  def zeros(d: Dim) = makeExpr(cg => dn.zeros(cg, d.dim), Seq(d))
-  def zeroes(d: Dim) = makeExpr(cg => dn.zeros(cg, d.dim), Seq(d))
-  def ones(d: Dim) = makeExpr(cg => dn.ones(cg, d.dim), Seq(d))
-  def constant(d: Dim, v: Float) = makeExpr(cg => dn.constant(cg, d.dim, v), Seq(d))
-  def randomNormal(d: Dim) = makeExpr(cg => dn.random_normal(cg, d.dim), Seq(d))
-  def randomBernoulli(d: Dim, p: Float, scale: Float = 1.0f) = makeExpr(
-    cg => dn.random_bernoulli(cg, d.dim, p, scale), Seq(d))
-  def randomUniform(d: Dim, left: Float, right: Float) = makeExpr(
-    cg => dn.random_uniform(cg, d.dim, left, right), Seq(d))
-  def randomGumbel(d: Dim, mu: Float, beta: Float) = makeExpr(
-    cg => dn.random_gumbel(cg, d.dim, mu, beta), Seq(d))
+  def zeros(d: Dim, str: String = ""): Expression = makeExpr(cg => dn.zeros(cg, d.dim, Device(str)), Seq(d))
+  def zeroes(d: Dim, str: String = ""): Expression = makeExpr(cg => dn.zeros(cg, d.dim, Device(str)), Seq(d))
+  def ones(d: Dim, str: String = ""): Expression = makeExpr(cg => dn.ones(cg, d.dim, Device(str)), Seq(d))
+  def constant(d: Dim, v: Float, str: String = ""): Expression = makeExpr(cg => dn.constant(cg, d.dim, v, Device(str)), Seq(d))
+  def randomNormal(d: Dim, mean: Float = 0f, stdDev: Float = 1f, str: String = ""): Expression = makeExpr(cg => dn.random_normal(cg, d.dim, mean, stdDev, Device(str)), Seq(d))
+  def randomBernoulli(d: Dim, p: Float, scale: Float = 1.0f, str: String = ""): Expression = makeExpr(
+    cg => dn.random_bernoulli(cg, d.dim, p, scale, Device(str)), Seq(d))
+  def randomUniform(d: Dim, left: Float, right: Float, str: String = ""): Expression = makeExpr(
+    cg => dn.random_uniform(cg, d.dim, left, right, Device(str)), Seq(d))
+  def randomGumbel(d: Dim, mu: Float, beta: Float, str:String = ""): Expression = makeExpr(
+    cg => dn.random_gumbel(cg, d.dim, mu, beta, Device(str)), Seq(d))
 
   /* ARITHMETIC OPERATIONS */
 
@@ -111,7 +124,7 @@ object Expression {
   }
 
   private type UnaryTransform = internal.Expression => internal.Expression
-  private def unary(e: Expression, transformer: UnaryTransform) = {
+  private def unary(e: Expression, transformer: UnaryTransform): Expression = {
     e.ensureFresh()
     // Specify e as reference so it can't get prematurely garbage collected.
     new Expression(transformer(e.expr), Seq(e))
@@ -146,7 +159,7 @@ object Expression {
   def sum(exprs: Expression*): Expression = sum(new ExpressionVector(exprs))
 
   def sumElems(e: Expression): Expression = unary(e, dn.sum_elems)
-  def momentElems(e: Expression, r: Long) = unary(e, e => dn.moment_elems(e, r))
+  def momentElems(e: Expression, r: Long): Expression = unary(e, e => dn.moment_elems(e, r))
   def meanElems(e: Expression): Expression = unary(e, dn.mean_elems)
   def stdElems(e: Expression): Expression = unary(e, dn.std_elems)
 
@@ -337,6 +350,7 @@ object Expression {
     new Expression(dn.layer_norm(x.expr, g.expr, b.expr), Seq(x, g, b))
   }
   def weightNorm(w: Expression, g: Expression): Expression = binary(w, g, dn.weight_norm)
+  def toDevice(x: Expression, str: String): Expression = unary(x, x => dn.to_device(x, Device(str)))
 
   /** Augment numbers so that they can do arithmetic with expressions. */
   implicit class ImplicitNumerics[T](x: T)(implicit n: Numeric[T]) {
