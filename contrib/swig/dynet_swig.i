@@ -396,7 +396,7 @@ class ParameterCollection {
   void reset_gradient();
 
   Parameter add_parameters(const Dim& d, float scale = 0.0f,
-                             const std::string & name = "", Device *device = dynet::default_device);
+                           const std::string & name = "", Device *device = dynet::default_device);
   Parameter add_parameters(const Dim& d, Device *device);
   Parameter add_parameters(const Dim& d, const std::string & name, Device *device = dynet::default_device);
   Parameter add_parameters(const Dim& d, const ParameterInit & init,
