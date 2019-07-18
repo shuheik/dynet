@@ -21,7 +21,7 @@ class ParameterCollection private[dynet] (private[dynet] val model: internal.Par
                     device: internal.Device = Device.default()): Parameter =
     new Parameter(model.add_parameters(d.dim, init.parameterInit, name, device))
 
-  // Scala compiler does not arrow multiple overloaded method with default arguments
+  // Scala compiler does not allow multiple overloaded method with default arguments
   def addParameters(d: Dim, scale: Float, name:String, device: internal.Device): Parameter =
     new Parameter(model.add_parameters(d.dim, scale, name, device))
   def addParameters(d: Dim, scale: Float, name:String): Parameter =

@@ -104,14 +104,14 @@ object Expression {
   def zeros(d: Dim, device: internal.Device = Device.default()): Expression = makeExpr(cg => dn.zeros(cg, d.dim, device), Seq(d))
   def zeroes(d: Dim, device: internal.Device = Device.default()): Expression = makeExpr(cg => dn.zeros(cg, d.dim, device), Seq(d))
   def ones(d: Dim, device: internal.Device = Device.default()): Expression = makeExpr(cg => dn.ones(cg, d.dim, device), Seq(d))
-  def constant(d: Dim, v: Float, device: internal.Device): Expression = makeExpr(cg => dn.constant(cg, d.dim, v, device), Seq(d))
-  def randomNormal(d: Dim, mean: Float = 0f, stdDev: Float = 1f, device: internal.Device): Expression =
+  def constant(d: Dim, v: Float, device: internal.Device = Device.default()): Expression = makeExpr(cg => dn.constant(cg, d.dim, v, device), Seq(d))
+  def randomNormal(d: Dim, mean: Float = 0f, stdDev: Float = 1f, device: internal.Device = Device.default()): Expression =
     makeExpr(cg => dn.random_normal(cg, d.dim, mean, stdDev, device), Seq(d))
-  def randomBernoulli(d: Dim, p: Float, scale: Float = 1.0f, device: internal.Device): Expression =
+  def randomBernoulli(d: Dim, p: Float, scale: Float = 1.0f, device: internal.Device = Device.default()): Expression =
     makeExpr(cg => dn.random_bernoulli(cg, d.dim, p, scale, device), Seq(d))
-  def randomUniform(d: Dim, left: Float, right: Float, device: internal.Device): Expression =
+  def randomUniform(d: Dim, left: Float, right: Float, device: internal.Device = Device.default()): Expression =
     makeExpr(cg => dn.random_uniform(cg, d.dim, left, right, device), Seq(d))
-  def randomGumbel(d: Dim, mu: Float, beta: Float, device: internal.Device): Expression =
+  def randomGumbel(d: Dim, mu: Float, beta: Float, device: internal.Device = Device.default()): Expression =
     makeExpr(cg => dn.random_gumbel(cg, d.dim, mu, beta, device), Seq(d))
 
   /* ARITHMETIC OPERATIONS */
