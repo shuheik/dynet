@@ -124,6 +124,15 @@ struct Trainer {
    */
   virtual void save(std::ostream& os);
 
+   /**
+   * @brief Save the optimizer state
+   * @details Write all hyperparameters, momentum values and assimilate (if applicable) to file.
+   *          If the parameters are swapped with their moving averages, only the latters are saved.
+   *
+   * \param filename Output file name
+   */
+  virtual void save(const std::string & filename);
+
   /**
    * @brief Load the optimizer state
    * @details Read all hyperparameters, momentum values and assimilate (if applicable) from stream.
@@ -134,12 +143,29 @@ struct Trainer {
 
   /**
    * @brief Load the optimizer state
+   * @details Read all hyperparameters, momentum values and assimilate (if applicable) from file.
+   *
+   * \param filename Input file name
+   */
+  virtual void populate(const std::string & filename);
+
+  /**
+   * @brief Load the optimizer state
    * @details Read all hyperparameters, momentum values and assimilate (if applicable) from stream.
    *
    * \param os Input stream
    * \param lr New learning rate
    */
   void populate(std::istream& is, real lr);
+
+  /**
+   * @brief Load the optimizer state
+   * @details Read all hyperparameters, momentum values and assimilate (if applicable) from file.
+   *
+   * \param filename Input file name
+   * \param lr New learning rate
+   */
+  void populate(const std::string & filename, real lr);
 
   /**
    * \brief Clip gradient
@@ -409,7 +435,9 @@ struct MomentumSGDTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 
   // the following represent the current velocity
@@ -452,7 +480,9 @@ struct AdagradTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 protected:
   DYNET_TRAINER_DEFINE_DEV_IMPL()
@@ -493,7 +523,9 @@ struct AdadeltaTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 protected:
   DYNET_TRAINER_DEFINE_DEV_IMPL()
@@ -535,7 +567,9 @@ struct RMSPropTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 protected:
   DYNET_TRAINER_DEFINE_DEV_IMPL()
@@ -577,7 +611,9 @@ struct AdamTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 protected:
   DYNET_TRAINER_DEFINE_DEV_IMPL()
@@ -623,7 +659,9 @@ struct AmsgradTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 protected:
   DYNET_TRAINER_DEFINE_DEV_IMPL()
@@ -675,7 +713,9 @@ struct EGTrainer : public Trainer {
   using Trainer::restart;
 
   void save(std::ostream& os) override;
+  void save(const std::string & filename) override;
   void populate(std::istream& is) override;
+  void populate(const std::string & filename) override;
   using Trainer::populate;
 protected:
   DYNET_TRAINER_DEFINE_DEV_IMPL()

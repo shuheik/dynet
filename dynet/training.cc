@@ -303,6 +303,14 @@ void Trainer::save(std::ostream& os)
     }
 }
 
+void Trainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    this->save(f);
+    f.close();
+}
+
 void Trainer::populate(std::istream& is)
 {
     const auto& params = model->parameters_list();
@@ -366,6 +374,20 @@ void Trainer::populate(std::istream& is)
 void Trainer::populate(std::istream& is, real lr)
 {
     this->populate(is);
+    this->learning_rate = lr;
+}
+
+void Trainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
+}
+
+void Trainer::populate(const std::string & filename, real lr)
+{
+    this->populate(filename);
     this->learning_rate = lr;
 }
 
@@ -711,6 +733,14 @@ void MomentumSGDTrainer::save(std::ostream& os)
     os << momentum << std::endl;
 }
 
+void MomentumSGDTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    this->save(f);
+    f.close();
+}
+
 void MomentumSGDTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -724,6 +754,14 @@ void MomentumSGDTrainer::populate(std::istream& is)
     std::getline(is, line);
     std::istringstream iss(line);
     iss >> momentum;
+}
+
+void MomentumSGDTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
 }
 
 #endif
@@ -778,6 +816,14 @@ void AdagradTrainer::save(std::ostream& os)
     os << epsilon<< std::endl;
 }
 
+void AdagradTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    this->save(f);
+    f.close();
+}
+
 void AdagradTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -791,6 +837,14 @@ void AdagradTrainer::populate(std::istream& is)
     std::getline(is, line);
     std::istringstream iss(line);
     iss >> epsilon;
+}
+
+void AdagradTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
 }
 
 #endif
@@ -855,6 +909,14 @@ void AdadeltaTrainer::save(std::ostream& os)
     os << epsilon << ' ' << rho << std::endl;
 }
 
+void AdadeltaTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    this->save(f);
+    f.close();
+}
+
 void AdadeltaTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -870,6 +932,14 @@ void AdadeltaTrainer::populate(std::istream& is)
     std::getline(is, line);
     std::istringstream iss(line);
     iss >> epsilon >> rho;
+}
+
+void AdadeltaTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
 }
 
 #endif
@@ -931,6 +1001,14 @@ void RMSPropTrainer::save(std::ostream& os)
     os << epsilon << ' ' << rho << std::endl;
 }
 
+void RMSPropTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    this->save(f);
+    f.close();
+}
+
 void RMSPropTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -944,6 +1022,14 @@ void RMSPropTrainer::populate(std::istream& is)
     std::getline(is, line);
     std::istringstream iss(line);
     iss >> epsilon >> rho;
+}
+
+void RMSPropTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
 }
 
 #endif
@@ -1008,6 +1094,14 @@ void AdamTrainer::save(std::ostream& os)
     os << beta_1 << ' ' << beta_2 << ' ' << epsilon << std::endl;
 }
 
+void AdamTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    AdamTrainer::save(f);
+    f.close();
+}
+
 void AdamTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -1023,6 +1117,14 @@ void AdamTrainer::populate(std::istream& is)
     std::getline(is, line);
     std::istringstream iss(line);
     iss >> beta_1 >> beta_2 >> epsilon;
+}
+
+void AdamTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
 }
 
 #endif
@@ -1096,6 +1198,14 @@ void AmsgradTrainer::save(std::ostream& os)
     os << beta_1 << ' ' << beta_2 << ' ' << epsilon << std::endl;
 }
 
+void AmsgradTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    AmsgradTrainer::save(f);
+    f.close();
+}
+
 void AmsgradTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -1112,6 +1222,14 @@ void AmsgradTrainer::populate(std::istream& is)
     std::getline(is, line);
     std::istringstream iss(line);
     iss >> beta_1 >> beta_2 >> epsilon;
+}
+
+void AmsgradTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
 }
 
 #endif
@@ -1185,6 +1303,14 @@ void EGTrainer::save(std::ostream& os)
     ;
 }
 
+void EGTrainer::save(const std::string & filename)
+{
+    std::ofstream f;
+    f.open(filename);
+    EGTrainer::save(f);
+    f.close();
+}
+
 void EGTrainer::populate(std::istream& is)
 {
     Trainer::populate(is);
@@ -1203,6 +1329,13 @@ void EGTrainer::populate(std::istream& is)
     TensorTools::set_element(meg, 0u, f_meg);
 }
 
+void EGTrainer::populate(const std::string & filename)
+{
+    std::ifstream f;
+    f.open(filename);
+    this->populate(f);
+    f.close();
+}
 
 ostream& operator<<(std::ostream& os, const MovingAverage& o)
 {
