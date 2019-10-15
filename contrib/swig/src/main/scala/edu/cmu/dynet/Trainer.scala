@@ -6,6 +6,9 @@ class Trainer private[dynet](_trainer: internal.Trainer) {
   def updateEpoch(r: Float = 1.0f): Unit = _trainer.update_epoch(r)
   def restart(): Unit = _trainer.restart()
   def restart(lr: Float): Unit = _trainer.restart(lr)
+  def save(fileName: String): Unit = _trainer.save(fileName)
+  def populate(fileName: String): Unit = _trainer.populate(fileName)
+  def populate(fileName: String, lr: Float): Unit = _trainer.populate(fileName, lr)
 
   def clipGradients(): Float = _trainer.clip_gradients()
   def rescaleAndResetWeightDecay(): Unit = _trainer.rescale_and_reset_weight_decay()

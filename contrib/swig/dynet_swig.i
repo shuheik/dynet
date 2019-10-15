@@ -851,6 +851,10 @@ struct Trainer {
   virtual void restart() = 0;
   void restart(real lr);
 
+  virtual void save(const std::string & filename);
+  virtual void populate(const std::string & filename);
+  virtual void populate(const std::string & filename, real lr);
+
   float clip_gradients();
   void rescale_and_reset_weight_decay();
 
@@ -887,31 +891,43 @@ struct CyclicalSGDTrainer : public Trainer {
 struct MomentumSGDTrainer : public Trainer {
   explicit MomentumSGDTrainer(ParameterCollection& m, real learning_rate = 0.01, real mom = 0.9);
   void restart() override;
+  void save(const std::string & filename) override;
+  void populate(const std::string & filename) override;
 };
 
 struct AdagradTrainer : public Trainer {
   explicit AdagradTrainer(ParameterCollection& m, real learning_rate = 0.1, real eps = 1e-20);
   void restart() override;
+  void save(const std::string & filename) override;
+  void populate(const std::string & filename) override;
 };
 
 struct AdadeltaTrainer : public Trainer {
   explicit AdadeltaTrainer(ParameterCollection& m, real eps = 1e-6, real rho = 0.95);
   void restart() override;
+  void save(const std::string & filename) override;
+  void populate(const std::string & filename) override;
 };
 
 struct RMSPropTrainer : public Trainer {
    explicit RMSPropTrainer(ParameterCollection& m, real learning_rate = 0.1, real eps = 1e-20, real rho = 0.95);
    void restart() override;
+   void save(const std::string & filename) override;
+   void populate(const std::string & filename) override;
 };
 
 struct AdamTrainer : public Trainer {
   explicit AdamTrainer(ParameterCollection& m, float learning_rate = 0.001, float beta_1 = 0.9, float beta_2 = 0.999, float eps = 1e-8);
   void restart() override;
+  void save(const std::string & filename) override;
+  void populate(const std::string & filename) override;
 };
 
 struct AmsgradTrainer : public Trainer {
   explicit AmsgradTrainer(ParameterCollection& m, float learning_rate = 0.001, float beta_1 = 0.9, float beta_2 = 0.999, float eps = 1e-8);
   void restart() override;
+  void save(const std::string & filename) override;
+  void populate(const std::string & filename) override;
 };
 
 //struct EGTrainer : public Trainer {
