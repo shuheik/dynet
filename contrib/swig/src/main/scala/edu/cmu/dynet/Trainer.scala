@@ -14,6 +14,7 @@ class Trainer private[dynet](_trainer: internal.Trainer) {
   def rescaleAndResetWeightDecay(): Unit = _trainer.rescale_and_reset_weight_decay()
 
   def status(): Unit = _trainer.status()
+  def numUpdates(): Float = _trainer.getUpdates()
 
   def clippingEnabled: Boolean = _trainer.getClipping_enabled
   def clippingEnabled_=(b: Boolean) = _trainer.setClipping_enabled(b)
